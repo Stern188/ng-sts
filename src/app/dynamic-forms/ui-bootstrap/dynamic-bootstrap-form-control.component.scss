@@ -1,0 +1,58 @@
+#materialRadioGroup > div > label {
+  width: 100%;
+  span{
+    left: 30px;
+    top: 0px;
+  }
+}
+
+.labelcheckbox-container {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  .label-checkbox{
+    display: inline-flex;
+    padding-right: 10px;
+  }
+  label, .label-spacer{
+    display: inline-flex;
+  }
+  .control-container{
+    display: inline-flex;
+    flex: 0.99 1 auto;
+    .dyc-control{
+      width: 100% !important;
+    }
+  }
+}
+
+.togglebutton label{
+  align-items: center;
+}
+.form-control.select2-disabled{
+background-image: none !important;
+border-bottom: 1px dotted #D2D2D2 !important;
+}
+
+:host-context(.form-horizontal) .label-checkbox .form-control-checker {
+  top: 0px !important;
+}
+.label-checkbox .form-control-checker {
+  top: -30px !important;
+  &.checkbox ::ng-deep .checkbox-material .check,
+  label.checkbox-inline ::ng-deep .checkbox-material .check
+  {
+    width: 15px !important;
+    height: 15px !important;
+
+    &:before
+    {
+      margin-top: -7px !important;
+      margin-left: 5px !important;
+    }
+  }
+}
+
+.form-group.label-floating.with-labelChecker label.control-label{
+  left:30px;
+}

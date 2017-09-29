@@ -1,0 +1,13 @@
+{
+  "error":{
+    "required":"This field is required"
+  },
+  "Login":{
+    "sign_in":"Sign In",
+    "user_name":"User Name",
+    "password":"Password",
+    "error":{
+     "valid_username":"Please enter a valid username"
+    }
+  }
+}

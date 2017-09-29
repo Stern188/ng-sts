@@ -1,0 +1,14 @@
+
+<div class="page-bar" [class.ontop]="posstion === 'top'">
+  <ul class="page-breadcrumb">
+    <li *ngFor="let item of breadcrumbs;last as islast;">
+      <md-icon *ngIf="item.icon">{{item.icon}}</md-icon>
+      <a href="item.link?" *ngIf="item.link && !islast">{{item.name}}</a>
+      <span *ngIf="!(item.link) || islast">{{item.name}}</span>
+      <md-icon *ngIf="!islast">keyboard_arrow_right</md-icon>
+    </li>
+  </ul>
+  <div class="page-toolbar">
+  <ng-content select="[app-pagebar-toolbar]"></ng-content>
+  </div>
+</div>

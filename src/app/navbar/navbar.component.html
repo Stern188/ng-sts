@@ -1,0 +1,26 @@
+<div class="page-sidebar navbar-collapse collapse"
+     (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()" >
+  <ul class="page-sidebar-menu  page-header-fixed"
+      [class.page-sidebar-menu-closed]="navbar.status === NavbarStatus.toggle && !this.isMouseOver">
+    <ng-container *ngFor="let kv of navbar.menus">
+    <li class="nav-item" *ngFor="let item of kv.submenu index as i; first as isFirst" [id]="item.id"
+        [class.open]="item.open">
+      <a href="javascript:;" class="nav-link nav-toggle" (click)="open_menu(item.id)" >
+        <md-icon>{{item.icon}}</md-icon>
+        <span class="title">{{item.name}}</span>
+        <span class="arrow" *ngIf="(item.submenu)?.length > 0">
+          <md-icon >{{item.open?"keyboard_arrow_down":"keyboard_arrow_left"}}</md-icon>
+        </span>
+      </a>
+      <ul class="sub-menu" *ngIf="item.submenu" >
+        <li class="nav-item" *ngFor="let subitem of item.submenu" [id]="subitem.id">
+          <a href="javascript:;" class="nav-link nav-toggle" (click)="open_menu(subitem.id)">
+            <span class="title"><md-icon>{{subitem.icon}}</md-icon>{{subitem.name}}</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    </ng-container>
+  </ul>
+</div>
+

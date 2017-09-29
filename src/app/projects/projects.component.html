@@ -1,0 +1,80 @@
+<app-pagebar></app-pagebar>
+<div>
+  <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='搜索表格内容...' (keyup)='updateFilter($event)'
+  />
+  <a href="javascript:void(0)" class="btn btn-raised btn-xs" (click)="showAddForm()">添加项目
+    <md-icon>{{isShow?'keyboard_arrow_up':'keyboard_arrow_down'}}</md-icon>
+  </a>
+  <form *ngIf="isShow" #projectForm="ngForm" (ngSubmit)="add()">
+    <div fxLayout="row">
+      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+      <div fxFlex.gt-sm="100" fxFlex="80">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <md-input-container>
+            <input mdInput placeholder="项目名" id="nameFormControl" [(ngModel)]="project.name" #name="ngModel" name="nameFormControl" required>
+            <md-error *ngIf="name.hasError('required')">
+              项目名不能为空
+            </md-error>
+          </md-input-container>
+          <!-- <select2 [data]="members" placeholder="分配成员" [options]="basic_options" id="memberFormControl" name="memberFormControl"
+            [(ngModel)]="project.member"></select2> -->
+          <md-select style="width: 50%;height:50%;" multiple=true placeholder="分配成员" id="memberFormControl" name="memberFormControl"
+            [(ngModel)]="project.member" #member="ngModel">
+            <md-option *ngFor="let member of members" [value]="member.id">
+              {{ member.name }}
+            </md-option>
+          </md-select>
+        </div>
+      </div>
+      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+    <div fxLayout="row">
+      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+      <div fxFlex.gt-sm="100" fxFlex="80">
+        <div fxLayout="row" fxLayoutGap="10px">
+          <md-input-container>
+            <textarea mdInput placeholder="描述" rows="3" id="descriptionFormControl" maxlength="250" [(ngModel)]="project.description"
+              #description="ngModel" name="descriptionFormControl"></textarea>
+          </md-input-container>
+        </div>
+      </div>
+      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+    <div class="form-actions" fxLayout="row" style="margin-bottom: 10px;">
+      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+      <button type="submit" md-raised-button [disabled]="!projectForm.form.valid">保存</button>
+      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+  </form>
+
+  <ngx-datatable #table class="material" [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
+    [rows]="rows">
+    <ngx-datatable-column name="name">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        项目名
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="description">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        描述
+      </ng-template>
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value">
+        <span title="双击编辑" (dblclick)="editing[rowIndex + '-description'] = true" *ngIf="!editing[rowIndex + '-description']">
+          {{value}}
+        </span>
+        <input autofocus (blur)="updateValue($event, 'description', rowIndex)" *ngIf="editing[rowIndex+ '-description']" type="text"
+          [value]="value" />
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column>
+      <ng-template let-column="column" ngx-datatable-header-template>
+        操作
+      </ng-template>
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex">
+        <a href="javascript:;" title="删除" (click)="delete(rowIndex)">
+          <md-icon>highlight_off</md-icon>
+        </a>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

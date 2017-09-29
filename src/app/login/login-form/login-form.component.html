@@ -1,0 +1,26 @@
+<form #loginForm="ngForm" class="login-form" (ngSubmit)="onSubmit()">
+    <h3 class="form-title font-green">{{'Login.sign_in'|translate}}</h3>
+    <div>
+      <md-input-container>
+        <input mdInput placeholder="{{'Login.user_name'|translate}}" [(ngModel)]="user.name" id="nameFormControl" name="nameFormControl" required #name="ngModel">
+        <md-error *ngIf="name.hasError('required')">
+          {{'error.required'|translate}}
+        </md-error>
+        <md-error *ngIf="name.hasError('pattern')">
+          {{'Login.error.valid_username'|translate}}
+        </md-error>
+      </md-input-container>
+    </div>
+    <div>
+      <md-input-container>
+        <input mdInput placeholder="{{'Login.password'|translate}}" type="password"  [(ngModel)]="user.password" id="passwdFormControl" name="passwdFormControl" required #passwd="ngModel">
+        <md-error *ngIf="passwd.hasError('required')">
+          {{'error.required'|translate}}
+        </md-error>
+      </md-input-container>
+    </div>
+    <div class="form-actions">
+      <button type="submit" md-raised-button [disabled]="!loginForm.form.valid">Login</button>
+      <md-checkbox class="rememberme" >Rember Me</md-checkbox>
+    </div>
+  </form>

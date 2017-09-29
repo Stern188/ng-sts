@@ -1,0 +1,16 @@
+{
+  "error":{
+    "required":"该字段必须填写"
+  },
+  "Login":{
+    "sign_in":"登陆",
+    "user_name":"用户名",
+    "password":"密码",
+    "error":{
+     "valid_username":"请输入一个合法的用户名"
+    }
+  },
+  "demo":{
+    "ip_object":"IP地址对象"
+  }
+}

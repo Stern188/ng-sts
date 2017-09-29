@@ -1,0 +1,10 @@
+@import 'sass/angular-mat'; //mat theme
+@import 'sass/bootstrap-mat'; //bootstrap-material-design
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+@import '~angular2-toaster/toaster';
+@import "sass/layout/ngCloud/themes/topsec";
+.mat-select-trigger{
+    height:22px!important;
+}
