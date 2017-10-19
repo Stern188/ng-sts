@@ -1,4 +1,5 @@
 <app-pagebar></app-pagebar>
+<toaster-container></toaster-container>
 <div>
   <input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='搜索表格内容...' (keyup)='updateFilter($event)'
   />
@@ -47,12 +48,12 @@
       <div fxFlex.gt-sm="100" fxFlex="80">
         <div fxLayout="row" fxLayoutGap="10px">
           <md-input-container>
-            <input mdInput placeholder="邮箱" id="emailFormControl" pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
-              [(ngModel)]="users.email" #email="ngModel" name="emailFormControl" required>
+            <input mdInput placeholder="邮箱" id="emailFormControl" email [(ngModel)]="users.email" #email="ngModel" name="emailFormControl"
+              required>
             <md-error *ngIf="email.hasError('required')">
               邮箱不能为空
             </md-error>
-            <md-error *ngIf="email.hasError('pattern')">
+            <md-error *ngIf="!email.hasError('required') && email.hasError('email')">
               邮箱格式不正确
             </md-error>
           </md-input-container>
@@ -62,31 +63,6 @@
               {{ project.text }}
             </md-option>
           </md-select>
-        </div>
-      </div>
-      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
-    </div>
-    <div fxLayout="row">
-      <div fxShow fxHide.sm="true" fxFlex="10"> </div>
-      <div fxFlex.gt-sm="100" fxFlex="80">
-        <div fxLayout="row" fxLayoutGap="10px">
-          <md-input-container>
-            <input mdInput placeholder="密码" type="password" [(ngModel)]="users.password" id="passwdFormControl" name="passwdFormControl"
-              required #passwd="ngModel">
-            <md-error *ngIf="passwd.hasError('required')">
-              密码不能为空
-            </md-error>
-          </md-input-container>
-          <md-input-container>
-            <input mdInput placeholder="确认密码" type="password" [(ngModel)]="users.crmpassword" id="crmpasswdFormControl" name="crmpasswdFormControl"
-              required #crmpasswd="ngModel">
-            <md-error *ngIf="crmpasswd.hasError('required')">
-              确认密码不能为空
-            </md-error>
-            <md-error *ngIf="passwd.value!=crmpasswd.value && !crmpasswd.hasError('required')">
-              密码和确认密码不一致
-            </md-error>
-          </md-input-container>
         </div>
       </div>
       <div fxShow fxHide.sm="true" fxFlex="10"> </div>
@@ -142,8 +118,8 @@
           {{value}}
         </span>
         <!-- <select2 *ngIf="editing[rowIndex + '-projectsname']" [data]="projects" [options]="basic_options" (change)="updateValue($event, 'projectsname', rowIndex)"></select2> -->
-        <md-select *ngIf="editing[rowIndex + '-projectsname']" name="projectsname" multiple=true (change)="updateValue($event, 'projectsname', rowIndex)"
-          [value]="value">
+        <md-select style="width:100%;height:100%;" *ngIf="editing[rowIndex + '-projectsname']" name="projectsname" multiple=true
+          (change)="updateValue($event, 'projectsname', rowIndex)" [value]="value">
           <md-option *ngFor="let project of projects" [value]="project.text">
             {{ project.text }}
           </md-option>
@@ -152,6 +128,11 @@
           [value]="value">
           <option *ngFor="let project of projects" value={{project.text}}>{{project.text}}</option>
         </select> -->
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="date">
+      <ng-template let-column="column" ngx-datatable-header-template>
+        操作时间
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column>

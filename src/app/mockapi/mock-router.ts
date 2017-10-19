@@ -7,6 +7,8 @@ import { authApi } from "./auth-api.mock";
 import { dashboardApi } from "./dashboard-api.mock";
 import { projectsApi } from "./projects-api.mock";
 import { membersApi } from "./members-api.mock";
+import { versionsApi } from "./versions-api.mock";
+import { indexApi } from "./index-api.mock";
 import { statisticsApi } from "./statistics-api.mock";
 
 
@@ -24,6 +26,8 @@ export const mockRouters: MockRouters = {
     dashboardApi,
     projectsApi,
     membersApi,
+    versionsApi,
+    indexApi,
     statisticsApi
   ]
 };

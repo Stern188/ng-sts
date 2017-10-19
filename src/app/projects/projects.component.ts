@@ -3,8 +3,10 @@ import { Projects } from './projects';
 import { ProjectsService } from './projects.service';
 import { MembersService } from '../members/members.service';
 import { Members } from '../members/members';
+import { ToasterService, ToasterConfig } from 'angular2-toaster';
 @Component({
   selector: 'app-projects',
+  providers: [ToasterService],
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
@@ -18,12 +20,12 @@ export class ProjectsComponent implements OnInit {
   // public basic_options;
   isShow: boolean = false;
   mdIcon: string = 'keyboard_arrow_down';
-  constructor(private projectsService: ProjectsService, private membersService: MembersService) {
+  constructor(private toasterService: ToasterService, private projectsService: ProjectsService, private membersService: MembersService) {
   }
   getProjects(): void {
     this.projectsService
       .getProjects()
-      .then(projects => {
+      .subscribe(projects => {
         this.temp = [...projects];
         this.rows = projects;
       });
@@ -31,32 +33,42 @@ export class ProjectsComponent implements OnInit {
   getMembers(): void {
     this.membersService
       .getMembers()
-      .then(res => {
-        this.members = res;
-        /* let memberArr = [];
+      .subscribe(res => {
+        // this.members = res;
+        let memberArr = [];
         res.forEach(function (member) {
           memberArr.push({
             id: member.id,
             text: member.name
           });
         });
-        this.members = memberArr; */
+        this.members = memberArr;
       });
   }
   showAddForm() {
     this.isShow = !this.isShow;
   }
   add(project: object): void {
-    this.projectsService.create(this.projects)
-      .then(project => {
-        this.rows.unshift(project);
-        this.isShow = false;
-        this.project = {};
-      });
+    let samenameflag = true;
+    for (var i = 0; i < this.rows.length; i++) {
+      if (this.rows[i].name === this.project['name']) {
+        this.toasterService.pop('warning', '', '已存在该项目');
+        samenameflag = false;
+        break;
+      }
+    }
+    if (samenameflag) {
+      this.projectsService.create(this.projects)
+        .subscribe(project => {
+          this.rows.unshift(project);
+          this.isShow = false;
+          this.project = {};
+        });
+    }
   }
   updateValue(event, cell, rowIndex) {
     this.editing[rowIndex + '-' + cell] = false;
-    this.rows[rowIndex][cell] = event.target.value;
+    this.rows[rowIndex][cell] = event.target ? event.target.value : event.value;
     this.rows = [...this.rows];
     this.projectsService.update(this.rows[rowIndex]);
   }
@@ -71,7 +83,7 @@ export class ProjectsComponent implements OnInit {
   delete(rowIndex: number): void {
     this.projectsService
       .delete(this.rows[rowIndex].id)
-      .then(() => {
+      .subscribe(() => {
         this.rows = this.rows.filter(h => h !== this.rows[rowIndex]);
       });
   }

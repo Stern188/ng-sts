@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import { Observable, ObservableInput } from "rxjs/Observable";
 import { AppSettings } from "../app.settings";
 import { Members } from './members';
 
@@ -9,36 +9,31 @@ export class MembersService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private membersUrl = `${AppSettings.env_vars.API_URL}/members`;
     constructor(private http: Http) { }
-    getMembers(): Promise<Members[]> {
+    getMembers() {
         return this.http.get(this.membersUrl)
-            .toPromise()
-            .then(response => response.json() as Members[])
+            .map(response => response.json() as Members[])
             .catch(this.handleError);
     }
-    create(users: object): Promise<Members> {
+    create(users: object) {
         return this.http
             .post(this.membersUrl, JSON.stringify(users), { headers: this.headers })
-            .toPromise()
-            .then(res => res.json() as Members)
+            .map(res => res.json() as Members)
             .catch(this.handleError);
     }
-    update(member: Members): Promise<Members> {
+    update(member: Members) {
         const url = `${this.membersUrl}/${member.id}`;
         return this.http
             .put(url, JSON.stringify(member), { headers: this.headers })
-            .toPromise()
-            .then(() => member)
+            .map(() => member)
             .catch(this.handleError);
     }
-    delete(id: number): Promise<void> {
+    delete(id: number) {
         const url = `${this.membersUrl}/${id}`;
         return this.http.delete(url, { headers: this.headers })
-            .toPromise()
-            .then(() => null)
+            .map(() => null)
             .catch(this.handleError);
     }
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
+    public handleError(error, caught): ObservableInput<any> {
+        return Observable.throw(error);
     }
 }

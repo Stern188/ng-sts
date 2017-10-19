@@ -16,7 +16,8 @@ class MembersApi extends RESTMockApi {
                 "email":"zhangsan@topsec.com.cn",
                 "username": "zhangsan",
                 "projectsid": ["1","2"],
-                "projectsname": ["检测器","检测器管理中心"]
+                "projectsname": ["检测器","检测器管理中心"],
+                "date":"2017-10-10 18:00:32"
             },
             {
                 "id": 2,
@@ -24,7 +25,8 @@ class MembersApi extends RESTMockApi {
                 "email":"lisi@topsec.com.cn",
                 "username": "lisi",
                 "projectsid": ["1"],
-                "projectsname": ["检测器"]
+                "projectsname": ["检测器"],
+                "date":"2017-10-10 18:00:32"
             },
             {
                 "id": 3,
@@ -32,7 +34,8 @@ class MembersApi extends RESTMockApi {
                 "email":"wangwu@topsec.com.cn",
                 "username": "wangwu",
                 "projectsid": ["1","3"],
-                "projectsname": ["检测器","数据库系统"]
+                "projectsname": ["检测器","数据库系统"],
+                "date":"2017-10-10 18:00:32"
             }
         ];
     }

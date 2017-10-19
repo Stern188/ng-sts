@@ -1,32 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { Observable, ObservableInput } from "rxjs/Observable";
 import { AppSettings } from "../app.settings";
-import { Projects } from './projects';
+import { Observable, ObservableInput } from "rxjs/Observable";
+import { Versions } from './versions';
 
 @Injectable()
-export class ProjectsService {
+export class VersionsService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    private url = `${AppSettings.env_vars.API_URL}/projects`;
+    private url = `${AppSettings.env_vars.API_URL}/versions`;
     constructor(private http: Http) { }
-    getProjects() {
+    getVersions() {
         return this.http.get(this.url)
             .map(response => {
-                return response.json() as Projects[];
+                return response.json() as Versions[];
             })
             .catch(this.handleError);
     }
-    create(project: object) {
-        return this.http
-            .post(this.url, JSON.stringify(project), { headers: this.headers })
-            .map(res => res.json() as Projects)
+    create(versions: object) {
+        return this.http.post(this.url, JSON.stringify(versions), { headers: this.headers })
+            .map(response => {
+                return response.json() as Versions[];
+            })
             .catch(this.handleError);
     }
-    update(project: Projects) {
-        const updurl = `${this.url}/${project.id}`;
-        return this.http
-            .put(updurl, JSON.stringify(project), { headers: this.headers })
-            .map(() => project)
+    update(versions: Versions) {
+        const updurl = `${this.url}/${versions.id}`;
+        return this.http.put(updurl, JSON.stringify(versions), { headers: this.headers })
+            .map(response => {
+                return response.json() as Versions[];
+            })
             .catch(this.handleError);
     }
     delete(id: number) {

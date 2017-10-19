@@ -3,7 +3,5 @@ export class Members {
     name: string;
     username: string;
     email: string;
-    password: string;
-    crmpassword: string;
     project: string;
 }

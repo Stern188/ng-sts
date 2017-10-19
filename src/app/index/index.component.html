@@ -1,0 +1,117 @@
+<form>
+    自测项目：
+    <md-select id="projectControl" name="projectControl" [(ngModel)]="proVal" (change)='chgPro()'>
+        <md-option *ngFor="let project of projects" [value]="project.id">
+            {{ project.text }}
+        </md-option>
+    </md-select>
+    自测项目版本号：
+    <md-select id="versionControl" name="versionControl" [(ngModel)]="verVal" (change)='chgVer()'>
+        <md-option *ngFor="let version of versions" [value]="version.id">
+            {{ version.text }}
+        </md-option>
+    </md-select>
+    中，未自测人员：{{members}}
+</form>
+<input type='text' style='padding:8px;margin:15px auto;width:30%;' placeholder='搜索表格内容...' (keyup)='updateFilter($event)'
+/>
+<a href="javascript:void(0)" class="btn btn-raised btn-xs" (click)="showAddForm()">
+    填写自测信息
+    <md-icon>{{isShow?'keyboard_arrow_up':'keyboard_arrow_down'}}</md-icon>
+</a>
+<form *ngIf="isShow" #indexForm="ngForm" (ngSubmit)="add()">
+    <div fxLayout="row">
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+        <div fxFlex.gt-sm="100" fxFlex="80">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <md-select style="width: 50%;height:50%;" id="projectFormControl" name="projectFormControl" placeholder="自测项目" [(ngModel)]="indexMod.project"
+                    (change)='chgPro()'>
+                    <md-option *ngFor="let project of projects" [value]="project.id">
+                        {{ project.text }}
+                    </md-option>
+                </md-select>
+                <md-select style="width: 50%;height:50%;" id="versionFormControl" name="versionFormControl" placeholder="自测项目版本号" [(ngModel)]="indexMod.version"
+                    (change)='chgVer()'>
+                    <md-option *ngFor="let version of versions" [value]="version.id">
+                        {{ version.text }}
+                    </md-option>
+                </md-select>
+            </div>
+        </div>
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+    <div fxLayout="row">
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+        <div fxFlex.gt-sm="100" fxFlex="80">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <md-select style="width: 100%;height:100%;" id="stateFormControl" placeholder="自测状态" name="stateFormControl" [(ngModel)]="indexMod.state">
+                    <md-option [value]="all">
+                        通过
+                    </md-option>
+                    <md-option [value]="part">
+                        部分通过
+                    </md-option>
+                    <md-option [value]="none">
+                        不通过
+                    </md-option>
+                </md-select>
+            </div>
+        </div>
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+    <div fxLayout="row">
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+        <div fxFlex.gt-sm="100" fxFlex="80">
+            <div fxLayout="row" fxLayoutGap="10px">
+                <md-input-container>
+                    <textarea mdInput placeholder="描述" rows="3" id="descriptionFormControl" maxlength="500" [(ngModel)]="indexMod.description"
+                        #description="ngModel" name="descriptionFormControl"></textarea>
+                </md-input-container>
+            </div>
+        </div>
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+    <div class="form-actions" fxLayout="row" style="margin-bottom: 10px;">
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+        <button type="submit" md-raised-button [disabled]="!indexForm.form.valid">保存</button>
+        <div fxShow fxHide.sm="true" fxFlex="10"> </div>
+    </div>
+</form>
+<ngx-datatable #table class="material" [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
+    [rows]="rows">
+    <ngx-datatable-column name="name">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            姓名
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="state">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            自测状态
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+            <span *ngIf="value==='all'">通过</span>
+            <span *ngIf="value==='part'">部分通过</span>
+            <span *ngIf="value==='none'">未通过</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="projectname">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            自测项目
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="version">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            自测项目版本号
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="description">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            描述
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="date" style="width:500px;">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            时间
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

@@ -5,6 +5,7 @@ import { PageModule } from "../page/page.module";
 import { MaterialModule, MdNativeDateModule } from "@angular/material";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ToasterModule } from 'angular2-toaster';
 import { DynamicFormsBootstrapUIModule } from "../dynamic-forms/ui-bootstrap/ui-bootstrap.module";
 import { TopCommonModule } from "../common/topcommon.module";
 import { ProjectsRoutingModule } from "./projects-routing.module";
@@ -30,6 +31,7 @@ export let ProjectsModuleAddMenu = (navbar) => {
         PageModule,
         FlexLayoutModule,
         TopCommonModule,
+        ToasterModule,
         MaterialModule,
         MdNativeDateModule
     ],

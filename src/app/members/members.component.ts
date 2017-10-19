@@ -3,6 +3,8 @@ import { Members } from './members';
 import { MembersService } from './members.service';
 import { ProjectsService } from '../projects/projects.service';
 import { Projects } from '../projects/projects';
+import { Modal } from "ngx-modialog/plugins/vex";
+import { ToasterService, ToasterConfig } from 'angular2-toaster';
 // import { FormGroup } from "@angular/forms";
 // import {
 //   DynamicFormControlModel,
@@ -54,6 +56,7 @@ import { Projects } from '../projects/projects';
 // ];
 @Component({
   selector: 'app-members',
+  providers: [ToasterService],
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.scss']
 })
@@ -69,13 +72,13 @@ export class MembersComponent implements OnInit {
   mdIcon: string = 'keyboard_arrow_down';
   // formModel: DynamicFormControlModel[] = example_model;
   // formGroup: FormGroup;private formService: DynamicFormService
-  constructor(private membersService: MembersService, private projectsService: ProjectsService) {
+  constructor(private toasterService: ToasterService, public modal: Modal, private membersService: MembersService, private projectsService: ProjectsService) {
     // this.formGroup = this.formService.createFormGroup(this.formModel);
   }
   getProjects(): void {
     this.projectsService
       .getProjects()
-      .then(res => {
+      .subscribe(res => {
         // this.projects = res;
         let projectArr = [];
         res.forEach(function (project) {
@@ -90,7 +93,7 @@ export class MembersComponent implements OnInit {
   getMembers(): void {
     this.membersService
       .getMembers()
-      .then(members => {
+      .subscribe(members => {
         this.temp = [...members];
         this.rows = members;
       });
@@ -100,7 +103,7 @@ export class MembersComponent implements OnInit {
   }
   add(users: object): void {
     this.membersService.create(this.users)
-      .then(member => {
+      .subscribe(member => {
         this.rows.unshift(member);
         this.isShow = false;
         this.users = {};
@@ -138,10 +141,22 @@ export class MembersComponent implements OnInit {
     this.rows = temp;
   }
   delete(rowIndex: number): void {
-    this.membersService
-      .delete(this.rows[rowIndex].id)
-      .then(() => {
-        this.rows = this.rows.filter(h => h !== this.rows[rowIndex]);
+    const dialogRef = this.modal.confirm()
+      .isBlocking(true)
+      .message('是否确定删除？')
+      .okBtn('确定')
+      .cancelBtn('取消')
+      .open().then(dialogRef => {
+        dialogRef.result.then(result => {
+          this.membersService
+            .delete(this.rows[rowIndex].id)
+            .subscribe(() => {
+              this.rows = this.rows.filter(h => h !== this.rows[rowIndex]);
+            });
+            // .catch(() => {
+            //   this.toasterService.pop('error', '', '删除失败');
+            // });
+        }).catch(result => { });
       });
   }
   ngOnInit() {

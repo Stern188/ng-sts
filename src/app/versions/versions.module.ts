@@ -7,15 +7,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DynamicFormsBootstrapUIModule } from "../dynamic-forms/ui-bootstrap/ui-bootstrap.module";
 import { TopCommonModule } from "../common/topcommon.module";
-import { MembersRoutingModule } from "./members-routing.module";
-import { MembersComponent } from './members.component';
 import { ToasterModule } from 'angular2-toaster';
+import { VersionsRoutingModule } from "./versions-routing.module";
+import { VersionsComponent } from './versions.component';
 
-export let MembersModuleAddMenu = (navbar) => {
+export let VersionsModuleAddMenu = (navbar) => {
     navbar.add_menu({
-        id: 'MEMBERS', submenu: [
+        id: 'VERSIONS', submenu: [
             {
-                id: 'members', name: '用户管理', icon: 'input', link: '/members/members'
+                id: 'versions', name: '版本管理', icon: 'input', link: '/versions/versions'
             }
         ]
     });
@@ -24,7 +24,7 @@ export let MembersModuleAddMenu = (navbar) => {
     imports: [
         CommonModule,
         NgxDatatableModule,
-        MembersRoutingModule,
+        VersionsRoutingModule,
         FormsModule,
         ReactiveFormsModule,
         DynamicFormsBootstrapUIModule,
@@ -32,11 +32,11 @@ export let MembersModuleAddMenu = (navbar) => {
         FlexLayoutModule,
         TopCommonModule,
         MaterialModule,
-        ToasterModule,
-        MdNativeDateModule
+        MdNativeDateModule,
+        ToasterModule
     ],
-    declarations: [MembersComponent],
+    declarations: [VersionsComponent],
     providers: []
 })
 
-export class MembersModule { }
+export class VersionsModule { }

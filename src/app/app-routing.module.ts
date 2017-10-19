@@ -7,9 +7,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from "./login/auth-guard.service";
 import { AppComponent } from "./app.component";
 const routes: Routes = [
-  //{ path: '', redirectTo: '/dashboard', canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: '', redirectTo: '/index/index', canActivate: [AuthGuard], pathMatch: 'full' },
+  { path: 'index', loadChildren: 'app/index/index.module#IndexModule' },
   { path: 'members', loadChildren: 'app/members/members.module#MembersModule' },
   { path: 'projects', loadChildren: 'app/projects/projects.module#ProjectsModule' },
+  { path: 'versions', loadChildren: 'app/versions/versions.module#VersionsModule' },
 ];
 @NgModule({
   imports: [

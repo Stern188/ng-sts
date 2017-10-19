@@ -31,6 +31,9 @@ import { MembersModuleAddMenu } from "./members/members.module";
 import { MembersService } from './members/members.service';
 import { ProjectsModuleAddMenu } from "./projects/projects.module";
 import { ProjectsService } from './projects/projects.service';
+import { VersionsModuleAddMenu } from "./versions/versions.module";
+import { VersionsService } from './versions/versions.service';
+import { IndexService } from './index/index.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -89,7 +92,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderService,
     NavbarService,
     MembersService,
-    ProjectsService
+    ProjectsService,
+    VersionsService,
+    IndexService
   ],
   bootstrap: [AppComponent]
 })
@@ -99,6 +104,7 @@ export class AppModule {
     //if use lazyload ,call Addmenu
     MembersModuleAddMenu(navbar);
     ProjectsModuleAddMenu(navbar);
+    VersionsModuleAddMenu(navbar);
     //add default menu navbar.add_menu();
   }
 }

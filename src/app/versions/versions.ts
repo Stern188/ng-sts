@@ -1,7 +1,7 @@
-export class Projects {
+export class Versions {
     id: number;
     name: string;
-    member:string;
+    version: string;
     description: string;
     date:string;
 }
